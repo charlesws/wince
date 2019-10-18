@@ -1,6 +1,7 @@
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "Common.h"
 #include "IniFile.h"
+
 Common::Common(void)
 {
 }
@@ -263,4 +264,79 @@ bool Common::VerifyUser(CString user,CString pass)
 
 
 
+}
+
+void Common::find(LPCTSTR  lpPath,CStringArray& dest)
+{
+    
+	WIN32_FIND_DATA FileData;   // Data structure describes the file found
+	  HANDLE hSearch;             // Search handle returned by FindFirstFile
+	  TCHAR szMsg[100];           // String to store the error message
+	  TCHAR szNewPath[MAX_PATH];  // Name and path of the file copied
+	  TCHAR szDirPath[] = TEXT("\\HardDisk\\Setec\\Config1");
+
+	  BOOL bFinished = FALSE;
+
+	  // Create a new directory.
+
+	 /* if (!CreateDirectory (szDirPath, NULL))
+	  {
+		wsprintf (szMsg, TEXT("Unable to create new directory."));
+		return;
+	  }*/
+
+	  // Start searching for .txt files in the root directory.
+
+	  hSearch = FindFirstFile (TEXT("\\HardDisk\\Setec\\Config\\*.ini"), &FileData);
+	  if (hSearch == INVALID_HANDLE_VALUE)
+	  {
+		wsprintf (szMsg, TEXT("No .TXT files found."));
+		return;
+	  }
+	  dest.Add(FileData.cFileName);
+
+	  // Copy each .txt file to the new directory and change it to
+	  // read-only, if it is not already read-only.
+
+	  while (!bFinished)
+	  {
+		/*lstrcpy (szNewPath, szDirPath);
+		lstrcat (szNewPath, TEXT("\\"));
+		lstrcat (szNewPath, FileData.cFileName);
+
+		if (CopyFile (FileData.cFileName, szNewPath, FALSE))
+		{
+			  if (!(FileData.dwFileAttributes & FILE_ATTRIBUTE_READONLY))
+			  {
+				SetFileAttributes (szNewPath,
+						FileData.dwFileAttributes | FILE_ATTRIBUTE_READONLY);
+			  }
+		}
+		else
+		{
+			wsprintf (szMsg, TEXT("Unable to copy file."));
+
+		  // Your error-handling code goes here.
+		}*/
+
+		if (!FindNextFile (hSearch, &FileData))
+		{
+			  bFinished = TRUE;
+
+			  if (GetLastError () == ERROR_NO_MORE_FILES)
+			  {
+				wsprintf (szMsg, TEXT("Found all of the files."));
+			  }
+			  else
+			  {
+				wsprintf (szMsg, TEXT("Unable to find next file."));
+			  }
+		}
+		dest.Add(FileData.cFileName);
+	  }
+	 // Close the search handle
+	  if (!FindClose (hSearch))
+	  {
+			wsprintf (szMsg, TEXT("Unable to close search handle."));
+	  }
 }

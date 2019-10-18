@@ -44,4 +44,6 @@ public:
 	void WriteUser();
 	bool VerifyUser(CString user,CString pass);
 	void Split(CString source, CStringArray& dest, CString division);
+	BOOL  DirectoryList(LPCSTR Path);
+	void find(LPCTSTR  lpPath,CStringArray& dest);
 };

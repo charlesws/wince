@@ -16,6 +16,8 @@ public:
 // 对话框数据
 	enum { IDD = IDD_MAIN };
 	void UpdateList();
+
+	void FindBmpFile(CString strFoldername);
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 支持
 
@@ -33,4 +35,5 @@ public:
 	afx_msg void OnBnClickedmodify();
 	afx_msg void OnBnClickeddelete();
 	afx_msg void OnBnClickedButton3();
+	CListCtrl m_list1;
 };

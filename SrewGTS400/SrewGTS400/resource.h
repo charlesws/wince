@@ -26,10 +26,10 @@
 #define IDC_Dalay3                      1016
 #define IDC_LIST1                       1017
 #define IDC_modify                      1018
+#define IDC_LIST2                       1019
 #define IDC_password                    1020
 #define IDC_level                       1021
 #define IDC_BUTTON7                     1022
-#define IDC_BUTTON8                     1023
 #define IDC_delete                      1023
 
 // Next default values for new objects
@@ -38,7 +38,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        132
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1018
+#define _APS_NEXT_CONTROL_VALUE         1020
 #define _APS_NEXT_SYMED_VALUE           104
 #endif
 #endif

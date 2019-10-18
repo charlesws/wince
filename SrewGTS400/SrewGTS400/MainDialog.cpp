@@ -6,6 +6,7 @@
 #include "MainDialog.h"
 #include "Common.h"
 #include "Input.h"
+
 // MainDialog 对话框
 
 IMPLEMENT_DYNAMIC(MainDialog, CDialog)
@@ -24,6 +25,7 @@ void MainDialog::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_LIST1, m_list);
+	DDX_Control(pDX, IDC_LIST2, m_list1);
 }
 
 
@@ -282,6 +284,24 @@ BOOL MainDialog::OnInitDialog()
 
 
 
+//	LONG lStyle; 
+	lStyle = GetWindowLong(m_list.m_hWnd, GWL_STYLE);//获取当前窗口style 
+	lStyle &= ~LVS_TYPEMASK; //清除显示方式位 
+	lStyle |= LVS_REPORT; //设置style 
+	SetWindowLong(m_list1.m_hWnd, GWL_STYLE, lStyle);//设置style
+
+	 dwStyle = m_list1.GetExtendedStyle(); 
+	dwStyle |= LVS_EX_FULLROWSELECT;//选中某行使整行高亮（只适用与report风格的listctrl） 
+	dwStyle |= LVS_EX_GRIDLINES;//网格线（只适用与report风格的listctrl） 
+	dwStyle |= LVS_EX_CHECKBOXES;//item前生成checkbox控件
+
+	
+
+	m_list1.InsertColumn( 0, L"序号", LVCFMT_LEFT, 100 );//插入列 
+	m_list1.InsertColumn( 1, L"文件名", LVCFMT_LEFT, 100 ); 
+	m_list1.InsertColumn( 2, L"时间", LVCFMT_LEFT, 100 ); 
+
+
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// 异常: OCX 属性页应返回 FALSE
 }
@@ -421,7 +441,23 @@ void MainDialog::OnBnClickeddelete()
 void MainDialog::OnBnClickedButton3()
 {
 	// TODO: 在此添加控件通知处理程序代码
-	CFile mFile;
+	CStringArray files;
+	m_com.find(L"\\HardDisk\\Setec\\Config",files);
+	
+	int i;
+	int nRow;
+	CString csTemp;
+	for(i=0;i<files.GetSize();i++)
+	{
+		nRow = m_list1.InsertItem(i, files.GetAt(i));//插入行
+		//m_list.SetItemText(nRow, 1, files.GetAt(i));// 设置其它列数据
+
+		//csTemp.Format(_T("%d"), (int)m_com.m_user.GetAt(i).levle);
+		//m_list.SetItemText(nRow, 2,csTemp);// 设置其它列数据
+
+	}
+
+	/*CFile mFile;
 	
 	if(GetFileAttributes(_T("\\HardDisk\\Setec\\Config\\User.ini")) != 0xFFFFFFFF)
    {
@@ -431,4 +467,14 @@ void MainDialog::OnBnClickedButton3()
    {
 		AfxMessageBox(_T("此文件不存在！"));
    }
+
+	DeleteFile(L"\\My Documents\\MyFile.dat");*/
+	//CString filePathName = L"";
+	//CFileDialog dlg(TRUE);
+	//if(dlg.DoModal() == IDOK){
+	//	filePathName = dlg.GetPathName();
+	//	//this->m_Ring.SetWindowTextW(filePathName);
+	//}
 }
+
+
