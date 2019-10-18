@@ -1,0 +1,236 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// 中文(中华人民共和国) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+#ifdef _WIN32
+LANGUAGE LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED
+#pragma code_page(936)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)\r\n"
+    "LANGUAGE 4, 2\r\n"
+    "#pragma code_page(936)\r\n"
+    "#include ""res\\SrewGTS400.rc2""  // 非 Microsoft Visual C++ 编辑的资源\r\n"
+    "#include ""l.CHS\\afxres.rc""      // 标准组件\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON                    "res\\SrewGTS400.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_SREWGTS400_DIALOG DIALOG  0, 0, 424, 242
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW | 0x80000000L
+CAPTION "SrewGTS400"
+FONT 9, "MS Sans Serif"
+BEGIN
+    PUSHBUTTON      "登陆",IDC_Login,149,157,69,31
+    LTEXT           "密码",IDC_STATIC,59,95,41,17
+    LTEXT           "用户名",IDC_user,149,62,72,17,SS_NOTIFY | WS_BORDER
+    LTEXT           "用户名",IDC_STATIC,59,62,41,17
+    LTEXT           "密码",IDC_passwrd,149,95,72,17,SS_NOTIFY | WS_BORDER
+    PUSHBUTTON      "参数设置",IDC_BUTTON3,323,61,58,24
+    PUSHBUTTON      "文件管理",IDC_BUTTON4,323,101,58,24
+    PUSHBUTTON      "用户管理",IDC_BUTTON5,324,143,58,24
+END
+
+IDD_INPUTDIALOG DIALOG  0, 0, 316, 182
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialog"
+FONT 8, "MS Shell Dlg"
+BEGIN
+END
+
+IDD_MAIN DIALOG  0, 0, 611, 302
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialog"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    PUSHBUTTON      "写参数",IDC_BUTTON1,531,60,50,21
+    LTEXT           "DstVel",IDC_STATIC,37,36,21,8
+    EDITTEXT        IDC_DstVel,115,31,40,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "读参数",IDC_BUTTON2,531,21,50,22
+    LTEXT           "StartVel",IDC_STATIC,37,56,26,8
+    EDITTEXT        IDC_StartVel,115,51,40,14,ES_AUTOHSCROLL
+    LTEXT           "Acc",IDC_STATIC,39,77,12,8
+    EDITTEXT        IDC_Acc,115,72,40,14,ES_AUTOHSCROLL
+    LTEXT           "syspram-0-0",IDC_STATIC,38,17,80,9
+    LTEXT           "DstVel",IDC_STATIC,219,36,21,8
+    EDITTEXT        IDC_DstVel1,297,30,40,14,ES_AUTOHSCROLL
+    LTEXT           "StartVel",IDC_STATIC,219,56,26,8
+    EDITTEXT        IDC_StartVel1,297,51,40,14,ES_AUTOHSCROLL
+    LTEXT           "Acc",IDC_STATIC,221,77,12,8
+    EDITTEXT        IDC_Acc1,297,72,40,14,ES_AUTOHSCROLL
+    LTEXT           "syspram-0-1",IDC_STATIC,220,17,82,8
+    LTEXT           "Dalay1",IDC_STATIC,387,34,23,8
+    EDITTEXT        IDC_Dalay1,465,29,40,14,ES_AUTOHSCROLL
+    LTEXT           "Dalay2",IDC_STATIC,387,54,23,8
+    EDITTEXT        IDC_Dalay2,465,49,40,14,ES_AUTOHSCROLL
+    LTEXT           "Dalay3",IDC_STATIC,389,74,23,8
+    EDITTEXT        IDC_Dalay3,465,70,40,14,ES_AUTOHSCROLL
+    LTEXT           "userparam",IDC_STATIC,389,15,35,8
+    CONTROL         "",IDC_LIST1,"SysListView32",LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,35,112,291,80
+    PUSHBUTTON      "修改",IDC_modify,493,141,50,17
+    LTEXT           "用户名",IDC_STATIC,369,124,25,8
+    EDITTEXT        IDC_user,433,122,40,14,ES_AUTOHSCROLL
+    LTEXT           "密码",IDC_STATIC,369,145,17,8
+    EDITTEXT        IDC_password,433,142,40,14,ES_AUTOHSCROLL
+    LTEXT           "等级",IDC_STATIC,369,166,17,8
+    EDITTEXT        IDC_level,433,163,40,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "添加",IDC_BUTTON7,493,120,50,17
+    PUSHBUTTON      "删除",IDC_delete,493,162,50,17
+    PUSHBUTTON      "Button3",IDC_BUTTON3,383,208,50,14
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "080403a8"
+        BEGIN
+            VALUE "CompanyName", "TODO: <公司名>"
+            VALUE "FileDescription", "TODO: <文件说明>"
+            VALUE "FileVersion", "1.0.0.1"
+            VALUE "InternalName", "SrewGTS400.exe"
+            VALUE "LegalCopyright", "TODO: (C) <公司名>。保留所有权利。"
+            VALUE "OriginalFilename", "SrewGTS400.exe"
+            VALUE "ProductName", "TODO: <产品名>"
+            VALUE "ProductVersion", "1.0.0.1"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x804, 936
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_SREWGTS400_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 417
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 235
+    END
+
+    IDD_INPUTDIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 309
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 175
+    END
+
+    IDD_MAIN, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 604
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 295
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // 中文(中华人民共和国) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
+LANGUAGE 4, 2
+#pragma code_page(936)
+#include "res\SrewGTS400.rc2"  // 非 Microsoft Visual C++ 编辑的资源
+#include "l.CHS\afxres.rc"      // 标准组件
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
