@@ -120,6 +120,8 @@ void CSrewGTS400Dlg::OnStnClickeduser()
 			return;
 		else
 		{
+			m_UserInput.Remove('\r');
+			m_UserInput.Remove('\n');
 			m_user = m_UserInput;
 			
 			GetDlgItem(IDC_user)->SetWindowText(m_user);

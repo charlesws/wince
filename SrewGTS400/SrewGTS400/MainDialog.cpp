@@ -6,6 +6,8 @@
 #include "MainDialog.h"
 #include "Common.h"
 #include "Input.h"
+#include <time.h>
+
 
 // MainDialog 对话框
 
@@ -39,6 +41,12 @@ BEGIN_MESSAGE_MAP(MainDialog, CDialog)
 	ON_BN_CLICKED(IDC_modify, &MainDialog::OnBnClickedmodify)
 	ON_BN_CLICKED(IDC_delete, &MainDialog::OnBnClickeddelete)
 	ON_BN_CLICKED(IDC_BUTTON3, &MainDialog::OnBnClickedButton3)
+	ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST2, &MainDialog::OnLvnItemchangedList2)
+	ON_BN_CLICKED(IDC_BUTTON8, &MainDialog::OnBnClickedButton8)
+	ON_BN_CLICKED(IDC_BUTTON6, &MainDialog::OnBnClickedButton6)
+	ON_BN_CLICKED(IDC_delete2, &MainDialog::OnBnClickeddelete2)
+	ON_BN_CLICKED(IDC_delete3, &MainDialog::OnBnClickeddelete3)
+	ON_BN_CLICKED(IDC_BUTTON9, &MainDialog::OnBnClickedButton9)
 END_MESSAGE_MAP()
 
 
@@ -241,6 +249,28 @@ BOOL MainDialog::OnInitDialog()
 
 	// TODO:  在此添加额外的初始化
 
+
+#if 1
+	/*HWND lpClassName;
+	lpClassName = ::FindWindow(TEXT("HHTaskBar"), NULL); 
+	 ::ShowWindow(lpClassName, SW_HIDE); // 只隐藏Taskbar还不行，你得把work area 设为整个屏幕： 
+	int screenx = GetSystemMetrics(SM_CXSCREEN); 
+	int screeny = GetSystemMetrics(SM_CYSCREEN);
+	 CRect rcWorkArea; 
+	rcWorkArea.left   = -1; 
+	 rcWorkArea.right  = 1024; 
+	 rcWorkArea.top    = -24; 
+	 rcWorkArea.bottom = 800; 
+	 ::SystemParametersInfo(SPI_SETWORKAREA, 0, &rcWorkArea, SPIF_SENDCHANGE);*/
+
+
+	// int m_nMaxX = GetSystemMetrics(SM_CXSCREEN); int m_nMaxY = GetSystemMetrics(SM_CYSCREEN);
+
+// CRect rcTemp; rcTemp.BottomRight() = CPoint(m_nMaxX, m_nMaxY); rcTemp.TopLeft() = CPoint(0, 0); MoveWindow(&rcTemp);
+#endif
+
+
+
 	LONG lStyle; 
 	lStyle = GetWindowLong(m_list.m_hWnd, GWL_STYLE);//获取当前窗口style 
 	lStyle &= ~LVS_TYPEMASK; //清除显示方式位 
@@ -254,9 +284,9 @@ BOOL MainDialog::OnInitDialog()
 
 	
 
-	m_list.InsertColumn( 0, L"用户名", LVCFMT_LEFT, 100 );//插入列 
-	m_list.InsertColumn( 1, L"密码", LVCFMT_LEFT, 100 ); 
-	m_list.InsertColumn( 2, L"权限", LVCFMT_LEFT, 100 ); 
+	m_list.InsertColumn( 0, L"用户名", LVCFMT_LEFT, 150 );//插入列 
+	m_list.InsertColumn( 1, L"密码", LVCFMT_LEFT, 150 ); 
+	m_list.InsertColumn( 2, L"权限", LVCFMT_LEFT, 150 ); 
 	
 	m_com.ReadUser();
 	int i;
@@ -297,10 +327,42 @@ BOOL MainDialog::OnInitDialog()
 
 	
 
-	m_list1.InsertColumn( 0, L"序号", LVCFMT_LEFT, 100 );//插入列 
-	m_list1.InsertColumn( 1, L"文件名", LVCFMT_LEFT, 100 ); 
-	m_list1.InsertColumn( 2, L"时间", LVCFMT_LEFT, 100 ); 
+	m_list1.InsertColumn( 0, L"序号", LVCFMT_LEFT, 50 );//插入列 
+	m_list1.InsertColumn( 1, L"文件名", LVCFMT_LEFT, 150 ); 
+	m_list1.InsertColumn( 2, L"时间", LVCFMT_LEFT, 150 ); 
 
+	//LPSYSTEMTIME st; 　
+	m_com.find(L"\\HardDisk\\Setec\\Config",m_files);
+
+
+	//int i;
+	//int nRow;
+	//CString csTemp;
+	SYSTEMTIME st;
+	FILETIME st1;
+	CString timeStr;
+	for(i=0;i<m_files.GetSize();i++)
+	{
+		timeStr.Format(L"%d",i+1);
+		nRow = m_list1.InsertItem(i, timeStr);//插入行
+
+		m_list1.SetItemText(nRow, 1, m_files.GetAt(i).cFileName);// 设置其它列数据
+		
+		FILETIME t1= m_files.GetAt(i).ftCreationTime;
+		FileTimeToSystemTime(&m_files.GetAt(i).ftCreationTime,&st);
+	//	FileTimeToLocalFileTime(&t1,st1);
+		timeStr.Format(L"%d-%d-%d  %d:%d:%d",st.wYear,st.wMonth,st.wDay,st.wHour,st.wMinute,st.wSecond);
+		//timeStr.Format(L"%d:%d:%d",st->wHour,st->wMinute,st->wSecond);
+		//timeStr.Format(_T("%d"), (int)st->wHour);
+		//FileTimeToSystemTime(m_files.GetAt(i).ftCreationTime,st);
+		//timeStr.Format(L"%d-%d-%d  %d:%d:%d",st.wYear,st.wMonth,st.wDay，st.wHour,st.wMinute,st.wSecond);
+		m_list1.SetItemText(nRow, 2, timeStr);// 设置其它列数据
+		//m_list.SetItemText(nRow, 1, files.GetAt(i));// 设置其它列数据
+
+		//csTemp.Format(_T("%d"), (int)m_com.m_user.GetAt(i).levle);
+		//m_list.SetItemText(nRow, 2,csTemp);// 设置其它列数据
+
+	}
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// 异常: OCX 属性页应返回 FALSE
@@ -441,15 +503,17 @@ void MainDialog::OnBnClickeddelete()
 void MainDialog::OnBnClickedButton3()
 {
 	// TODO: 在此添加控件通知处理程序代码
-	CStringArray files;
-	m_com.find(L"\\HardDisk\\Setec\\Config",files);
+	m_files.RemoveAll();
+	m_list1.DeleteAllItems();
+
+	m_com.find(L"\\HardDisk\\Setec\\Config",m_files);
 	
 	int i;
 	int nRow;
 	CString csTemp;
-	for(i=0;i<files.GetSize();i++)
+	for(i=0;i<m_files.GetSize();i++)
 	{
-		nRow = m_list1.InsertItem(i, files.GetAt(i));//插入行
+		nRow = m_list1.InsertItem(i, m_files.GetAt(i).cFileName);//插入行
 		//m_list.SetItemText(nRow, 1, files.GetAt(i));// 设置其它列数据
 
 		//csTemp.Format(_T("%d"), (int)m_com.m_user.GetAt(i).levle);
@@ -478,3 +542,201 @@ void MainDialog::OnBnClickedButton3()
 }
 
 
+
+void MainDialog::OnLvnItemchangedList2(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	LPNMLISTVIEW pNMLV = reinterpret_cast<LPNMLISTVIEW>(pNMHDR);
+	// TODO: 在此添加控件通知处理程序代码
+	CString str; 
+       for(int i=0; i<m_list1.GetItemCount(); i++) 
+       { 
+           if( m_list1.GetItemState(i, LVIS_SELECTED) == LVIS_SELECTED ) 
+           { 
+                 //str.Format(_T(" 选中了第%d 行"), i); 
+                 //AfxMessageBox(str); 
+
+			   GetDlgItem(IDC_filename)->SetWindowText(m_files.GetAt(i).cFileName);
+			   m_selectedFile = m_files.GetAt(i).cFileName;
+				/*GetDlgItem(IDC_password)->SetWindowText(m_com.m_user.GetAt(i).passwrd);
+				CString csTemp;
+				csTemp.Format(_T("%d"), (int)m_com.m_user.GetAt(i).levle);
+				GetDlgItem(IDC_level)->SetWindowText(csTemp);*/
+           } 
+       } 
+
+
+	*pResult = 0;
+}
+
+void MainDialog::OnBnClickedButton8()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	/*CString creatfile:
+	GetDlgItem(IDC_filename)->GetWindowTextW(creatfile);
+	for(i=0;i<m_files.GetSize();i++)
+	{
+		if(m_files.GetAt(i) == creatfile)
+		{
+			AfxMessageBox(_T("此文件已存在！"));
+			return;
+		}
+	}*/
+	//creat file,
+	CFile mFile;
+	CString creatfile;
+	CString creatfileFull;
+	GetDlgItem(IDC_filename)->GetWindowTextW(creatfile);
+	creatfileFull = _T("\\HardDisk\\Setec\\Config\\") + creatfile;
+	if(GetFileAttributes(creatfileFull) != 0xFFFFFFFF)
+	{
+		AfxMessageBox(_T("此文件已存在！"));
+	}
+	else
+	{
+		//AfxMessageBox(_T("此文件不存在！"));
+		if (!mFile.Open(creatfileFull,CFile::modeCreate|CFile::modeWrite))//创建失败
+		  {
+		   AfxMessageBox(_T("创建数据库失败"));
+		   return;
+		  }
+		mFile.Close();
+
+		m_com.WriteConfig(creatfileFull);
+		
+	}
+
+	OnBnClickedButton3();
+}
+
+void MainDialog::OnBnClickedButton6()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	CString creatfile;
+	CString directory;
+	CString creatfileFull;
+	GetDlgItem(IDC_filename)->GetWindowTextW(creatfile);
+	directory = _T("\\HardDisk\\Setec\\Config\\");
+	creatfileFull = _T("\\HardDisk\\Setec\\Config\\") + creatfile;
+	if(GetFileAttributes(creatfileFull) != 0xFFFFFFFF)
+	{
+		AfxMessageBox(_T("此文件已存在！"));
+	}
+	else
+	{
+		//AfxMessageBox(_T("此文件不存在！"));
+		//m_com.WriteConfig(creatfileFull);
+		//复制文件
+		bool file_copy_flag;
+		file_copy_flag = CopyFile(directory+m_selectedFile,directory+creatfile,false);
+		if(file_copy_flag){
+		//删除原文件
+			
+			DeleteFile(directory+m_selectedFile);
+		}else{
+			AfxMessageBox(_T("删除原文件失败！"));
+		}
+
+	}
+
+	OnBnClickedButton3();
+}
+
+void MainDialog::OnBnClickeddelete2()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	CString creatfile;
+	CString directory;
+	CString creatfileFull;
+	GetDlgItem(IDC_filename)->GetWindowTextW(creatfile);
+	directory = _T("\\HardDisk\\Setec\\Config\\");
+	creatfileFull = _T("\\HardDisk\\Setec\\Config\\") + creatfile;
+	
+	/*if(DeleteFile(directory+m_selectedFile))
+		AfxMessageBox(_T("删除成功！"));
+	else
+		AfxMessageBox(_T("删除失败！"));
+	OnBnClickedButton3();*/
+
+
+
+	HANDLE   hFile;   
+	WIN32_FIND_DATA   wfd;   
+	SYSTEMTIME   systime;   
+	FILETIME   localtime;   
+	  
+	memset(&wfd,   0,   sizeof(wfd));   
+	    
+	if((hFile=FindFirstFile(directory+m_selectedFile,   &wfd))==INVALID_HANDLE_VALUE)   
+	{   
+
+	return   ;//失败   
+	}   
+	//ok,转换时间   
+	FileTimeToLocalFileTime(&wfd.ftLastWriteTime,&localtime);   
+	FileTimeToSystemTime(&localtime,&systime);  
+
+}
+
+void MainDialog::OnBnClickeddelete3()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	CString creatfile;
+	CString directory;
+	CString creatfileFull;
+	GetDlgItem(IDC_filename)->GetWindowTextW(creatfile);
+	directory = _T("\\HardDisk\\Setec\\Config\\");
+	creatfileFull = _T("\\HardDisk\\Setec\\Config\\") + creatfile;
+	//复制文件
+	bool file_copy_flag;
+	file_copy_flag = CopyFile(directory+m_selectedFile,L"USB HardDisk\\"+creatfile,false);
+	if(file_copy_flag){
+		//删除原文件
+			AfxMessageBox(_T("拷贝成功！"));
+		}else{
+			AfxMessageBox(_T("拷贝失败！"));
+		}
+
+}
+
+void MainDialog::OnBnClickedButton9()
+{
+	// TODO: 在此添加控件通知处理程序代码
+
+	CFile mFile;
+	CString creatfile;
+	CString creatfileFull;
+	GetDlgItem(IDC_filename)->GetWindowTextW(creatfile);
+	creatfileFull = _T("\\HardDisk\\Setec\\Config\\") + creatfile;
+		
+	m_com.ReadConfig(creatfileFull);
+	CString csTemp;
+
+	csTemp.Format(_T("%0.8f"), m_com.m_syspara[0].DstVel);
+	GetDlgItem(IDC_DstVel)->SetWindowText(csTemp);
+
+	csTemp.Format(_T("%0.8f"), m_com.m_syspara[0].StartVel);
+	GetDlgItem(IDC_StartVel)->SetWindowText(csTemp);
+
+	csTemp.Format(_T("%0.8f"), m_com.m_syspara[0].Acc);
+	GetDlgItem(IDC_Acc)->SetWindowText(csTemp);
+
+
+	csTemp.Format(_T("%0.8f"), m_com.m_syspara[1].DstVel);
+	GetDlgItem(IDC_DstVel1)->SetWindowText(csTemp);
+
+	csTemp.Format(_T("%0.8f"), m_com.m_syspara[1].StartVel);
+	GetDlgItem(IDC_StartVel1)->SetWindowText(csTemp);
+
+	csTemp.Format(_T("%0.8f"), m_com.m_syspara[1].Acc);
+	GetDlgItem(IDC_Acc1)->SetWindowText(csTemp);
+
+
+	csTemp.Format(_T("%d"), (int)m_com.m_userpara.Dalay1);
+	GetDlgItem(IDC_Dalay1)->SetWindowText(csTemp);
+
+	csTemp.Format(_T("%d"), (int)m_com.m_userpara.Dalay2);
+	GetDlgItem(IDC_Dalay2)->SetWindowText(csTemp);
+
+	csTemp.Format(_T("%d"), (int)m_com.m_userpara.Dalay3);
+	GetDlgItem(IDC_Dalay3)->SetWindowText(csTemp);
+}

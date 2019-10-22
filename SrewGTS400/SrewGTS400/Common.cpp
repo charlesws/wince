@@ -78,6 +78,43 @@ void Common::WriteUser()
 	}
 }
 
+void Common::ReadConfig(CString fileName)
+{
+	 CString buff;
+	CeGetPrivateProfileString(_T("syspram-0-0"), _T("DstVel"), L"1",buff.GetBuffer(30), 
+									30, fileName);
+	m_syspara[0].DstVel = _wtof(buff);
+	
+	CeGetPrivateProfileString(_T("syspram-0-0"), _T("StartVel"), L"1",buff.GetBuffer(30), 
+									30, fileName);
+	m_syspara[0].StartVel = _wtof(buff);
+
+	CeGetPrivateProfileString(_T("syspram-0-0"), _T("Acc"), L"1",buff.GetBuffer(30), 
+									30, fileName);
+	m_syspara[0].Acc = _wtof(buff);
+
+	CeGetPrivateProfileString(_T("syspram-0-1"), _T("DstVel"), L"1",buff.GetBuffer(30), 
+									30,fileName);
+	m_syspara[1].DstVel = _wtof(buff);
+	
+	CeGetPrivateProfileString(_T("syspram-0-1"), _T("StartVel"), L"1",buff.GetBuffer(30), 
+									30, fileName);
+	m_syspara[1].StartVel = _wtof(buff);
+
+	CeGetPrivateProfileString(_T("syspram-0-1"), _T("Acc"), L"1",buff.GetBuffer(30), 
+									30, fileName);
+	m_syspara[1].Acc = _wtof(buff);
+
+
+	m_userpara.Dalay1 = CeGetPrivateProfileInt(_T("userparam"), _T("Dalay1"),  
+									1, fileName);
+
+	m_userpara.Dalay2 = CeGetPrivateProfileInt(_T("userparam"), _T("Dalay2"),  
+									1, fileName);
+
+	m_userpara.Dalay3 = CeGetPrivateProfileInt(_T("userparam"), _T("Dalay3"),  
+									1,fileName);
+}
 void Common::ReadModuleConfig()
 {
 		
@@ -165,6 +202,46 @@ void Common::ReadModuleConfig()
 
 }
 
+void Common::WriteConfig(CString fileName)
+{
+	CString csTemp;
+	csTemp.Format(_T("%0.8f"), m_syspara[0].DstVel);
+	while (!CeWritePrivateProfileString(_T("syspram-0-0"), _T("DstVel"), 
+									csTemp, fileName));
+
+	csTemp.Format(_T("%0.8f"), m_syspara[0].StartVel);
+	while (!CeWritePrivateProfileString(_T("syspram-0-0"), _T("StartVel"), 
+									csTemp, fileName));
+
+	csTemp.Format(_T("%0.8f"), m_syspara[0].Acc);
+	while (!CeWritePrivateProfileString(_T("syspram-0-0"), _T("Acc"), 
+									csTemp, fileName));
+
+	csTemp.Format(_T("%0.8f"), m_syspara[1].DstVel);
+	while (!CeWritePrivateProfileString(_T("syspram-0-1"), _T("DstVel"), 
+									csTemp,fileName));
+
+	csTemp.Format(_T("%0.8f"), m_syspara[1].StartVel);
+	while (!CeWritePrivateProfileString(_T("syspram-0-1"), _T("StartVel"), 
+									csTemp, fileName));
+
+	csTemp.Format(_T("%0.8f"), m_syspara[1].Acc);
+	while (!CeWritePrivateProfileString(_T("syspram-0-1"), _T("Acc"), 
+									csTemp, fileName));
+									
+	csTemp.Format(_T("%d"), (int)m_userpara.Dalay1);
+	while (!CeWritePrivateProfileString(_T("userparam"), _T("Dalay1"),  
+									csTemp, fileName));
+
+	csTemp.Format(_T("%d"), (int)m_userpara.Dalay2);
+	while (!CeWritePrivateProfileString(_T("userparam"), _T("Dalay2"),  
+									csTemp, fileName));
+	
+	csTemp.Format(_T("%d"), (int)m_userpara.Dalay3);
+	while (!CeWritePrivateProfileString(_T("userparam"), _T("Dalay3"),  
+									csTemp,fileName));
+
+}
 void Common::WriteModuleConfig()const
 {
 	CString csTemp;
@@ -266,14 +343,15 @@ bool Common::VerifyUser(CString user,CString pass)
 
 }
 
-void Common::find(LPCTSTR  lpPath,CStringArray& dest)
+//void Common::find(LPCTSTR  lpPath,CStringArray& dest)
+void Common::find(LPCTSTR  lpPath,CArray<WIN32_FIND_DATA,WIN32_FIND_DATA>& dest)
 {
     
 	WIN32_FIND_DATA FileData;   // Data structure describes the file found
 	  HANDLE hSearch;             // Search handle returned by FindFirstFile
 	  TCHAR szMsg[100];           // String to store the error message
 	  TCHAR szNewPath[MAX_PATH];  // Name and path of the file copied
-	  TCHAR szDirPath[] = TEXT("\\HardDisk\\Setec\\Config1");
+	  //TCHAR szDirPath[] = TEXT("\\HardDisk\\Setec\\Config1");
 
 	  BOOL bFinished = FALSE;
 
@@ -293,7 +371,8 @@ void Common::find(LPCTSTR  lpPath,CStringArray& dest)
 		wsprintf (szMsg, TEXT("No .TXT files found."));
 		return;
 	  }
-	  dest.Add(FileData.cFileName);
+	  //dest.Add(FileData.cFileName);
+	  dest.Add(FileData);
 
 	  // Copy each .txt file to the new directory and change it to
 	  // read-only, if it is not already read-only.
@@ -318,7 +397,7 @@ void Common::find(LPCTSTR  lpPath,CStringArray& dest)
 
 		  // Your error-handling code goes here.
 		}*/
-
+		
 		if (!FindNextFile (hSearch, &FileData))
 		{
 			  bFinished = TRUE;
@@ -331,8 +410,11 @@ void Common::find(LPCTSTR  lpPath,CStringArray& dest)
 			  {
 				wsprintf (szMsg, TEXT("Unable to find next file."));
 			  }
+			  break;
+			  
 		}
-		dest.Add(FileData.cFileName);
+		//dest.Add(FileData.cFileName);
+		dest.Add(FileData);
 	  }
 	 // Close the search handle
 	  if (!FindClose (hSearch))

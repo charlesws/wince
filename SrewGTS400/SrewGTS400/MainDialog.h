@@ -13,6 +13,9 @@ public:
 	virtual ~MainDialog();
 
 	Common m_com;
+	//CStringArray m_files;
+	CArray<WIN32_FIND_DATA,WIN32_FIND_DATA> m_files;
+	CString m_selectedFile;
 // 对话框数据
 	enum { IDD = IDD_MAIN };
 	void UpdateList();
@@ -36,4 +39,10 @@ public:
 	afx_msg void OnBnClickeddelete();
 	afx_msg void OnBnClickedButton3();
 	CListCtrl m_list1;
+	afx_msg void OnLvnItemchangedList2(NMHDR *pNMHDR, LRESULT *pResult);
+	afx_msg void OnBnClickedButton8();
+	afx_msg void OnBnClickedButton6();
+	afx_msg void OnBnClickeddelete2();
+	afx_msg void OnBnClickeddelete3();
+	afx_msg void OnBnClickedButton9();
 };

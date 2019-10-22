@@ -45,5 +45,8 @@ public:
 	bool VerifyUser(CString user,CString pass);
 	void Split(CString source, CStringArray& dest, CString division);
 	BOOL  DirectoryList(LPCSTR Path);
-	void find(LPCTSTR  lpPath,CStringArray& dest);
+	//void find(LPCTSTR  lpPath,CStringArray& dest);
+	void find(LPCTSTR  lpPath,CArray<WIN32_FIND_DATA,WIN32_FIND_DATA> &dest);
+	void WriteConfig(CString fileName);
+	void ReadConfig(CString fileName);
 };
